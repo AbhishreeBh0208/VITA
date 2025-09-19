@@ -148,7 +148,8 @@ export default function Home() {
 
   async function missDose(diseaseId) {
     try {
-      const res = await axios.post("http://localhost:4000/api/miss", {
+      const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+      const res = await axios.post("API_BASE/api/miss", {
         userId,
         disease: diseaseId,
       });
@@ -274,3 +275,4 @@ function calculateHappiness(streakVal, stageVal, habitsObj) {
     </div>
   );
 }
+
