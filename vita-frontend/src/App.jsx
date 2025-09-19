@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import "./i18n";
+
 
 import Home from "./pages/Home";
 import MiniGames from "./pages/MiniGames";

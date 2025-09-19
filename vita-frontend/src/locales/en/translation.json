@@ -1,0 +1,24 @@
+{
+  "tabs": {
+    "diabetes": "Diabetes",
+    "hypertension": "Hypertension",
+    "asthma": "Asthma"
+  },
+  "stage": "Stage",
+  "streak_days": "day streak",
+  "take_dose": "Take Dose",
+  "miss_dose": "Miss Dose",
+  "pet_happiness": "Pet Happiness",
+  "play_with_pet": "Play with Pet",
+  "played_game": "✔ Played Game Today",
+  "mood": {
+    "happy": "Your pet is happy!",
+    "sad": "Your pet is sad!",
+    "neutral": "Your pet is waiting for you..."
+  },
+  "pets": {
+    "glucobud": "Glucobud",
+    "pulsepup": "PulsePup",
+    "inhalo": "Inhalo"
+  }
+}

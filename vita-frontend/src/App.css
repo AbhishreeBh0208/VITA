@@ -305,8 +305,9 @@ body,html,#root{
 
 .tabs {
   display: flex;
-  justify-content: center;
-  margin: 20px 0;
+  justify-content: start;
+  width: 80%;
+  margin: 20px auto;
   gap: 12px;
 }
 
@@ -419,4 +420,22 @@ body,html,#root{
 
 .scan-item {
   margin: 10px;
+}
+
+.lang-switch {
+  position: absolute;
+  width: 30%;
+  right: 5%;
+}
+
+.lang-btn {
+  outline: none;
+  border: none;
+  color: var(--white);
+  background: transparent;
+  border: 2px solid rgba(232, 70, 129, 1);
+  padding: 10px 20px;
+  margin-right: 30px;
+  border-radius: 10px;
+  cursor: pointer;
 }

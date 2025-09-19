@@ -11,19 +11,23 @@ export default function NextDoseTimer({ disease, nextDoseAt }) {
     setTargetTime(now + hours * 60 * 60 * 1000);
   };
 
+  // Sync with backend-provided nextDoseAt
   useEffect(() => {
-    if (!targetTime) {
-      if (nextDoseAt) {
-        setTargetTime(new Date(nextDoseAt).getTime());
-      } else {
-        startTimer(customHours);
-      }
+    if (nextDoseAt) {
+      setTargetTime(new Date(nextDoseAt).getTime());
+    } else {
+      startTimer(customHours);
     }
+  }, [nextDoseAt]);
+
+  useEffect(() => {
+    if (!targetTime) return;
 
     const interval = setInterval(() => {
       const diff = targetTime - Date.now();
+
       if (diff <= 0) {
-        setTimeLeft("💊 Time to take your next dose!");
+        setTimeLeft(`Time to take your ${disease} pill!`);
         clearInterval(interval);
       } else {
         const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, "0");
@@ -34,12 +38,12 @@ export default function NextDoseTimer({ disease, nextDoseAt }) {
           2,
           "0"
         );
-        setTimeLeft(`Next ${disease} pill in ${hours}:${minutes}:${seconds}`);
+        setTimeLeft(`Next pill in ${hours}:${minutes}:${seconds}`);
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [targetTime, customHours, nextDoseAt, disease]);
+  }, [targetTime, disease]);
 
   return (
     <div className="dose-timer-container">

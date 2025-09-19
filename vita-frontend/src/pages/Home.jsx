@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 import StatsPanel from "../components/StatsPanel";
 import Achievements from "../components/Achievements";
@@ -12,6 +13,9 @@ import NextDoseTimer from "../components/NextDoseTimer";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("diabetes");
+
+  // translation
+  const { t, i18n } = useTranslation();
 
   // Pets state
   const [pets, setPets] = useState({
@@ -32,36 +36,74 @@ export default function Home() {
   const userId = "demoUser";
 
   const petNames = {
-    diabetes: "Glucobud",
-    hypertension: "PulsePup",
-    asthma: "Inhalo",
+    diabetes: t("pets.glucobud"), // 🐾 translation key
+    hypertension: t("pets.pulsepup"),
+    asthma: t("pets.inhalo"),
   };
 
-  function PetRenderer({ stage, mood }) {
+  // PetRenderer (disease-specific SVGs)
+  function PetRenderer({ disease = "diabetes", stage = 1, mood = "neutral" }) {
     const petSvgs = {
-      1: {
-        happy: "/images/pet1_happy.svg",
-        sad: "/images/pet1_sad.svg",
-        neutral: "/images/pet1_neutral.svg",
+      diabetes: {
+        1: {
+          happy: "/images/glucobud1_happy.svg",
+          sad: "/images/glucobud1_sad.svg",
+          neutral: "/images/glucobud1_neutral.svg",
+        },
+        2: {
+          happy: "/images/glucobud2_happy.svg",
+          sad: "/images/glucobud2_sad.svg",
+          neutral: "/images/glucobud2_neutral.svg",
+        },
+        3: {
+          happy: "/images/glucobud3_happy.svg",
+          sad: "/images/glucobud3_sad.svg",
+          neutral: "/images/glucobud3_neutral.svg",
+        },
       },
-      2: {
-        happy: "/images/pet2_happy.svg",
-        sad: "/images/pet2_sad.svg",
-        neutral: "/images/pet2_neutral.svg",
+      hypertension: {
+        1: {
+          happy: "/images/pulsepup1_happy.svg",
+          sad: "/images/pulsepup1_sad.svg",
+          neutral: "/images/pulsepup1_neutral.svg",
+        },
+        2: {
+          happy: "/images/pulsepup2_happy.svg",
+          sad: "/images/pulsepup2_sad.svg",
+          neutral: "/images/pulsepup2_neutral.svg",
+        },
+        3: {
+          happy: "/images/pulsepup3_happy.svg",
+          sad: "/images/pulsepup3_sad.svg",
+          neutral: "/images/pulsepup3_neutral.svg",
+        },
       },
-      3: {
-        happy: "/images/pet3_happy.svg",
-        sad: "/images/pet3_sad.svg",
-        neutral: "/images/pet3_neutral.svg",
+      asthma: {
+        1: {
+          happy: "/images/inhalo1_happy.svg",
+          sad: "/images/inhalo1_sad.svg",
+          neutral: "/images/inhalo1_neutral.svg",
+        },
+        2: {
+          happy: "/images/inhalo2_happy.svg",
+          sad: "/images/inhalo2_sad.svg",
+          neutral: "/images/inhalo2_neutral.svg",
+        },
+        3: {
+          happy: "/images/inhalo3_happy.svg",
+          sad: "/images/inhalo3_sad.svg",
+          neutral: "/images/inhalo3_neutral.svg",
+        },
       },
     };
 
-    const petImage = petSvgs[stage]?.[mood] || petSvgs[stage]?.neutral;
+    const petImage =
+      petSvgs[disease]?.[stage]?.[mood] || petSvgs[disease]?.[stage]?.neutral;
 
     return (
       <motion.img
         src={petImage}
-        alt="pet"
+        alt={`${disease} pet`}
         className="pet"
         animate={{ y: [0, -12, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
@@ -84,8 +126,14 @@ export default function Home() {
           ...prev,
           [diseaseId]: {
             ...prev[diseaseId],
-            streak: typeof res.data.streak === "number" ? res.data.streak : prev[diseaseId].streak,
-            stage: typeof res.data.stage === "number" ? res.data.stage : prev[diseaseId].stage,
+            streak:
+              typeof res.data.streak === "number"
+                ? res.data.streak
+                : prev[diseaseId].streak,
+            stage:
+              typeof res.data.stage === "number"
+                ? res.data.stage
+                : prev[diseaseId].stage,
             mood: res.data.mood || prev[diseaseId].mood || "neutral",
           },
         }));
@@ -171,21 +219,28 @@ export default function Home() {
   }
 
   // Happiness score
-function calculateHappiness(streakVal, stageVal, habitsObj) {
-  let score = 0;
-  score += Math.min(60, streakVal * 4); // streak effect
-  score += (stageVal - 1) * 10; // stage effect
-  if (habitsObj.water) score += 6;
-  if (habitsObj.exercise) score += 7;
-  if (habitsObj.sleep) score += 7;
-  if (habitsObj.games) score += 10; // 🎮 games boost
-  return Math.max(0, Math.min(100, Math.round(score)));
-}
+  function calculateHappiness(streakVal, stageVal, habitsObj) {
+    let score = 0;
+    score += Math.min(60, streakVal * 4); // streak effect
+    score += (stageVal - 1) * 10; // stage effect
+    if (habitsObj.water) score += 6;
+    if (habitsObj.exercise) score += 7;
+    if (habitsObj.sleep) score += 7;
+    if (habitsObj.games) score += 10; // 🎮 games boost
+    return Math.max(0, Math.min(100, Math.round(score)));
+  }
 
   const happiness = calculateHappiness(streak, stage, habits);
 
   return (
     <div className="home">
+      {/* Language Switcher */}
+      <div className="lang-switch">
+        <button className="lang-btn" onClick={() => i18n.changeLanguage("en")}>🇬🇧 English</button>
+        <button className="lang-btn" onClick={() => i18n.changeLanguage("hi")}>🇮🇳 हिंदी</button>
+        <button className="lang-btn" onClick={() => i18n.changeLanguage("ta")}>🇮🇳 தமிழ்</button>
+      </div>
+
       {/* Tabs */}
       <div className="tabs">
         {["diabetes", "hypertension", "asthma"].map((tab) => (
@@ -194,7 +249,7 @@ function calculateHappiness(streakVal, stageVal, habitsObj) {
             className={`tab-btn ${activeTab === tab ? "active" : ""}`}
             onClick={() => setActiveTab(tab)}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {t(`tabs.${tab}`)}
           </button>
         ))}
       </div>
@@ -202,18 +257,26 @@ function calculateHappiness(streakVal, stageVal, habitsObj) {
       {/* Pet Card */}
       <section className="pet-card">
         <div className="pet-container">
-          <PetRenderer stage={stage} mood={mood} />
-          <MoodBubble mood={mood} />
+          <PetRenderer disease={activeTab} stage={stage} mood={mood} />
+          <MoodBubble mood={mood} text={t(`mood.${mood}`)} />
           <h1 className="pet-name">{petNames[activeTab]}</h1>
         </div>
 
         <div className="stats">
-          <StatsPanel streak={streak} stage={stage} nextEvolution={currentThreshold} />
+          <StatsPanel
+            streak={streak}
+            stage={stage}
+            nextEvolution={currentThreshold}
+          />
           <Achievements />
           <NextDoseTimer
             nextDoseAt={
               Date.now() +
-              (activeTab === "diabetes" ? 4 : activeTab === "hypertension" ? 6 : 8) *
+              (activeTab === "diabetes"
+                ? 4
+                : activeTab === "hypertension"
+                ? 6
+                : 8) *
                 60 *
                 60 *
                 1000
@@ -227,45 +290,51 @@ function calculateHappiness(streakVal, stageVal, habitsObj) {
         {/* Progress bar */}
         <div className="progress">
           <div className="progress-bar">
-            <div className="progress-fill" style={{ transform: `scaleX(${progress})` }} />
+            <div
+              className="progress-fill"
+              style={{ transform: `scaleX(${progress})` }}
+            />
           </div>
           <div className="progress-meta">
-            <span>Stage {stage}</span>
-            <span>{streak} day streak</span>
+            <span>{t("stage")} {stage}</span>
+            <span>{streak} {t("streak_days")}</span>
           </div>
         </div>
 
         {/* Buttons */}
         <div className="buttons">
           <button className="btn take" onClick={() => takeDose(activeTab)}>
-            Take Dose
+            {t("take_dose")}
           </button>
           <button className="btn miss" onClick={() => missDose(activeTab)}>
-            Miss Dose
+            {t("miss_dose")}
           </button>
         </div>
 
         <div className="happiness-and-habits">
           <div className="happiness">
-            <h3>Pet Happiness: {happiness}%</h3>
+            <h3>{t("pet_happiness")}: {happiness}%</h3>
             <div className="happiness-bar">
-              <div className="happiness-fill" style={{ width: `${happiness}%` }} />
+              <div
+                className="happiness-fill"
+                style={{ width: `${happiness}%` }}
+              />
             </div>
           </div>
 
           <HabitTracker onHabitChange={(updated) => setHabits(updated)} />
 
-        <div style={{ marginTop: "15px" }}>
-          <button
-          className="btn-game"
-          onClick={() =>
-            setHabits((prev) => ({ ...prev, games: !prev.games }))
-            }
-          >
-          {habits.games ? "✔ Played Game Today" : "Play with Pet"}
-          </button>
+          <div style={{ marginTop: "15px" }}>
+            <button
+              className="btn-game"
+              onClick={() =>
+                setHabits((prev) => ({ ...prev, games: !prev.games }))
+              }
+            >
+              {habits.games ? t("played_game") : t("play_with_pet")}
+            </button>
+          </div>
         </div>
-      </div>
 
         {/* Daily log */}
         <DailyLog log={[true, true, false, true, true, true, false]} />
@@ -275,5 +344,3 @@ function calculateHappiness(streakVal, stageVal, habitsObj) {
     </div>
   );
 }
-
-
