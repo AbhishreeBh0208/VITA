@@ -1,0 +1,29 @@
+.reaction-area {
+  height: 300px;
+  width: 500px;
+  margin: 30px auto;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.reaction-area.waiting {
+  background: var(--bg2);
+  color: #374151;
+}
+
+.reaction-area.ready {
+  background: #cfaa13;
+  color: #1f2937;
+}
+
+.reaction-area.go {
+  background: #4ade80;
+  color: #065f46;
+}

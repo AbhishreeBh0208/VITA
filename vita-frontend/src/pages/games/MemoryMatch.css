@@ -1,0 +1,37 @@
+.game {
+  text-align: center;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  gap: 15px;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.card {
+  width: 70px;
+  height: 70px;
+  background: #f3f4f6;
+  border: 2px solid #6b7280;
+  border-radius: 8px;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.card:hover {
+  background: #e0f2fe;
+  transform: scale(1.05);
+}
+
+.card.flipped {
+  background: #ffffff;
+  border-color: #3b82f6;
+}

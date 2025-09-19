@@ -1,0 +1,24 @@
+.mood-bubble {
+  background: #dbffcf;
+  color: var(--bg1);
+  padding: 12px 18px;
+  border-radius: 18px;
+  text-align: center;
+  width: 200px;
+  font-size: 14px;
+  animation: floaty 3s ease-in-out infinite;
+  position: absolute;
+  left: 30%;
+  top: 30%;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.mood-bubble p {
+  margin: 0;
+  font-weight: 500;
+  color: var(--bg1);
+}

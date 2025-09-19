@@ -1,0 +1,60 @@
+.minigames {
+  text-align: center;
+  padding: 20px;
+}
+
+.subtitle {
+  margin: 10px;
+  color: #767575;
+  font-weight: 500;
+}
+
+.game-cards {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.game-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px 0px rgba(0, 205, 99, 0.05);
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+}
+
+.game-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.game-des {
+    margin: 10px;
+    line-height: 25px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.play-btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 8px 14px;
+  background: linear-gradient(90deg,rgba(232, 70, 129, 1) 13%, rgba(199, 87, 87, 1) 68%);
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.play-btn:hover {
+  background: linear-gradient(90deg,rgba(70, 232, 89, 1) 13%, rgba(87, 199, 133, 1) 68%);
+}
